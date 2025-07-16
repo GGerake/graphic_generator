@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Comparativo de Linguagens</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h2>Comparativo de Linguagens Backend</h2>
+
+  <form id="form">
+    <h3>Node.js + TS</h3>
+    <input type="number" placeholder="Escalabilidade" name="Node.js + TS-Escalabilidade" />
+    <input type="number" placeholder="Performance" name="Node.js + TS-Performance" />
+    <input type="number" placeholder="Comunidade" name="Node.js + TS-Comunidade/Documentação" />
+    <input type="number" placeholder="Facilidade de uso" name="Node.js + TS-Facilidade de uso" />
+    <input type="number" placeholder="Mercado" name="Node.js + TS-Posicionamento no mercado" />
+    <input type="number" placeholder="Compatibilidade" name="Node.js + TS-Compatibilidade com outros sistemas" />
+    
+    <h3>C# + .NET</h3>
+    <input type="number" placeholder="Escalabilidade" name="C# + .NET-Escalabilidade" />
+    <input type="number" placeholder="Performance" name="C# + .NET-Performance" />
+    <input type="number" placeholder="Comunidade" name="C# + .NET-Comunidade/Documentação" />
+    <input type="number" placeholder="Facilidade de uso" name="C# + .NET-Facilidade de uso" />
+    <input type="number" placeholder="Mercado" name="C# + .NET-Posicionamento no mercado" />
+    <input type="number" placeholder="Compatibilidade" name="C# + .NET-Compatibilidade com outros sistemas" />
+    
+    <h3>Go</h3>
+    <input type="number" placeholder="Escalabilidade" name="Go-Escalabilidade" />
+    <input type="number" placeholder="Performance" name="Go-Performance" />
+    <input type="number" placeholder="Comunidade" name="Go-Comunidade/Documentação" />
+    <input type="number" placeholder="Facilidade de uso" name="Go-Facilidade de uso" />
+    <input type="number" placeholder="Mercado" name="Go-Posicionamento no mercado" />
+    <input type="number" placeholder="Compatibilidade" name="Go-Compatibilidade com outros sistemas" />
+    
+    <br><br>
+    <button type="submit">Gerar Gráfico</button>
+  </form>
+
+  <div id="chart" style="width:100%; max-width:900px; height:600px; margin-top:50px;"></div>
+
+  <script>
+    const categorias = [
+      "Escalabilidade",
+      "Performance",
+      "Comunidade/Documentação",
+      "Facilidade de uso",
+      "Posicionamento no mercado",
+      "Compatibilidade com outros sistemas"
+    ];
+
+    document.getElementById('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const linguagens = ["Node.js + TS", "C# + .NET", "Go"];
+      const formData = new FormData(e.target);
+      const dados = {};
+
+      linguagens.forEach(lang => {
+        dados[lang] = categorias.map(cat => {
+          const val = formData.get(`${lang}-${cat}`);
+          return val ? parseFloat(val) : 0;
+        });
+        dados[lang].push(dados[lang][0]); // fechar gráfico
+      });
+
+      const categoriasFechadas = [...categorias, categorias[0]];
+
+      const traces = linguagens.map(lang => ({
+        type: 'scatterpolar',
+        r: dados[lang],
+        theta: categoriasFechadas,
+        fill: 'toself',
+        name: lang
+      }));
+
+      Plotly.newPlot('chart', traces, {
+        polar: {
+          radialaxis: {
+            visible: true,
+            range: [0, 10]
+          }
+        },
+        title: 'Comparativo de Linguagens Backend'
+      });
+    });
+  </script>
+</body>
+</html>

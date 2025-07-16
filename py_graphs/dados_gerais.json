@@ -1,0 +1,15 @@
+{
+  "categorias": [
+    "Escalabilidade",
+    "Performance",
+    "Comunidade/Documentação",
+    "Facilidade de uso",
+    "Posicionamento no mercado",
+    "Compatibilidade com outros sistemas"
+  ],
+  "pontuacoes": {
+    "Node.js + TS": [8, 7, 10, 6, 9, 9],
+    "C# + .NET":    [9, 8, 9, 5, 10, 8],
+    "Go":           [9, 10, 8, 9, 7, 9]
+  }
+}

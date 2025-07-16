@@ -1,23 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
-# Critérios
-categories = [
-    "Escalabilidade",
-    "Performance",
-    "Comunidade/Documentação",
-    "Complexidade (quanto menor, melhor)",
-    "Posicionamento no mercado",
-    "Compatibilidade com outros sistemas"
-]
+# Ler dados do JSON
+with open('dados.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
 
-# Pontuações (0 a 10)
-# Nota: Complexidade é invertida (quanto menor, melhor), então será ajustada no gráfico
-scores = {
-    "Node.js + TS": [8, 7, 10, 6, 9, 9],
-    "C# + .NET":    [9, 8, 9, 5, 10, 8],
-    "Go":           [9, 10, 8, 9, 7, 9]
-}
+categories = data["categorias"]
+scores = data["pontuacoes"]
 
 # Inverter pontuação de complexidade (quanto menor, melhor)
 complexity_index = categories.index("Complexidade (quanto menor, melhor)")
@@ -42,7 +32,7 @@ ax.set_theta_offset(np.pi / 2)
 ax.set_theta_direction(-1)
 ax.set_thetagrids(np.degrees(angles[:-1]), labels)
 ax.set_ylim(0, 10)
-ax.set_title("Comparativo Backend: Node.js + TS vs C# .NET vs Go", size=14)
+ax.set_title("Comparativo Backend", size=14)
 ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.2), ncol=1)
 
 plt.tight_layout()

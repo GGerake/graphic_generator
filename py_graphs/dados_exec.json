@@ -1,0 +1,12 @@
+{
+  "categorias": [
+    "Velocidade",
+    "Conexão com banco de dados",
+    "Frameworks"
+  ],
+  "pontuacoes": {
+    "Node.js + TS": [7, 8, 10],
+    "C# + .NET":    [9, 9, 10],
+    "Go":           [10, 8, 5]
+  }
+}
