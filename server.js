@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-// Servir arquivos estáticos da raiz do projeto (como index.html)
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
