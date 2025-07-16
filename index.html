@@ -1,87 +1,448 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Comparativo de Linguagens</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comparativo de Linguagens Backend</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+  <!-- Ícones para botão de tema -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              900: '#121826',
+              800: '#1e293b',
+              700: '#334155',
+              600: '#475569'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Estilos personalizados para o menu do Plotly */
+    .modebar {
+      position: relative !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      border-radius: 8px 8px 0 0 !important;
+      padding: 8px 16px !important;
+      display: flex !important;
+      justify-content: center !important;
+      margin-bottom: 15px !important;
+      backdrop-filter: blur(10px) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .dark .modebar {
+      background: rgba(30, 41, 59, 0.7) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    
+    .modebar-group {
+      background: none !important;
+      display: flex !important;
+      align-items: center !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+    }
+    
+    .modebar-btn {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-radius: 6px !important;
+      margin: 2px 4px !important;
+      padding: 6px 8px !important;
+      height: auto !important;
+      width: auto !important;
+      transition: all 0.2s ease !important;
+    }
+    
+    .modebar-btn:hover {
+      background: rgba(99, 102, 241, 0.5) !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    .modebar-btn path {
+      fill: #4b5563 !important;
+    }
+    
+    .dark .modebar-btn path {
+      fill: #cbd5e1 !important;
+    }
+    
+    .modebar-btn:hover path {
+      fill: #6366f1 !important;
+    }
+    
+    .dark .modebar-btn:hover path {
+      fill: #a5b4fc !important;
+    }
+    
+    .modebar-btn svg {
+      height: 18px !important;
+      width: 18px !important;
+    }
+    
+    .modebar .modebar-btn.active path {
+      fill: #6366f1 !important;
+    }
+    
+    .dark .modebar .modebar-btn.active path {
+      fill: #a5b4fc !important;
+    }
+    
+    /* Melhorias de layout */
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      height: 600px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
-<body>
-  <h2>Comparativo de Linguagens Backend</h2>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-900 dark:text-gray-200 transition-colors duration-300">
+  <div class="min-h-screen flex flex-col items-center py-8 px-4">
+    <!-- Cabeçalho com botão de tema -->
+    <header class="w-full max-w-4xl mb-8 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">
+        Comparativo de Linguagens Backend
+      </h1>
+      <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors">
+        <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+        <i class="fas fa-moon text-indigo-300 hidden dark:inline"></i>
+      </button>
+    </header>
 
-  <form id="form">
-    <h3>Node.js + TS</h3>
-    <input type="number" placeholder="Escalabilidade" name="Node.js + TS-Escalabilidade" />
-    <input type="number" placeholder="Performance" name="Node.js + TS-Performance" />
-    <input type="number" placeholder="Comunidade" name="Node.js + TS-Comunidade/Documentação" />
-    <input type="number" placeholder="Facilidade de uso" name="Node.js + TS-Facilidade de uso" />
-    <input type="number" placeholder="Mercado" name="Node.js + TS-Posicionamento no mercado" />
-    <input type="number" placeholder="Compatibilidade" name="Node.js + TS-Compatibilidade com outros sistemas" />
-    
-    <h3>C# + .NET</h3>
-    <input type="number" placeholder="Escalabilidade" name="C# + .NET-Escalabilidade" />
-    <input type="number" placeholder="Performance" name="C# + .NET-Performance" />
-    <input type="number" placeholder="Comunidade" name="C# + .NET-Comunidade/Documentação" />
-    <input type="number" placeholder="Facilidade de uso" name="C# + .NET-Facilidade de uso" />
-    <input type="number" placeholder="Mercado" name="C# + .NET-Posicionamento no mercado" />
-    <input type="number" placeholder="Compatibilidade" name="C# + .NET-Compatibilidade com outros sistemas" />
-    
-    <h3>Go</h3>
-    <input type="number" placeholder="Escalabilidade" name="Go-Escalabilidade" />
-    <input type="number" placeholder="Performance" name="Go-Performance" />
-    <input type="number" placeholder="Comunidade" name="Go-Comunidade/Documentação" />
-    <input type="number" placeholder="Facilidade de uso" name="Go-Facilidade de uso" />
-    <input type="number" placeholder="Mercado" name="Go-Posicionamento no mercado" />
-    <input type="number" placeholder="Compatibilidade" name="Go-Compatibilidade com outros sistemas" />
-    
-    <br><br>
-    <button type="submit">Gerar Gráfico</button>
-  </form>
+    <!-- Formulário -->
+    <div class="w-full max-w-4xl bg-white dark:bg-dark-800 rounded-xl shadow-lg p-6 mb-8 transition-colors duration-300">
+      <form id="form" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Node.js -->
+        <div class="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg">
+          <h3 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mb-4 flex items-center">
+            <i class="fab fa-node-js mr-2"></i> Node.js + TS
+          </h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Escalabilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Escalabilidade" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Performance" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comunidade/Documentação</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Comunidade/Documentação" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facilidade de uso</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Facilidade de uso" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Posicionamento no mercado</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Posicionamento no mercado" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Compatibilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" name="Node.js + TS-Compatibilidade com outros sistemas" required>
+            </div>
+          </div>
+        </div>
 
-  <div id="chart" style="width:100%; max-width:900px; height:600px; margin-top:50px;"></div>
+        <!-- .NET -->
+        <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg">
+          <h3 class="text-xl font-semibold text-purple-700 dark:text-purple-300 mb-4 flex items-center">
+            <i class="fab fa-microsoft mr-2"></i> C# + .NET
+          </h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Escalabilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Escalabilidade" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Performance" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comunidade/Documentação</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Comunidade/Documentação" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facilidade de uso</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Facilidade de uso" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Posicionamento no mercado</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Posicionamento no mercado" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Compatibilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-purple-500" name="C# + .NET-Compatibilidade com outros sistemas" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Go -->
+        <div class="bg-cyan-50 dark:bg-cyan-900/30 p-4 rounded-lg">
+          <h3 class="text-xl font-semibold text-cyan-700 dark:text-cyan-300 mb-4 flex items-center">
+            <i class="fas fa-code mr-2"></i> Go
+          </h3>
+          <div class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Escalabilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Escalabilidade" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Performance</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Performance" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Comunidade/Documentação</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Comunidade/Documentação" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Facilidade de uso</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Facilidade de uso" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Posicionamento no mercado</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Posicionamento no mercado" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Compatibilidade</label>
+              <input type="number" min="1" max="10" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-cyan-500" name="Go-Compatibilidade com outros sistemas" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-3 flex justify-center mt-4">
+          <button type="submit" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-lg shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-dark-800">
+            Gerar Gráfico
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Gráfico - Agora com container especial -->
+    <div class="w-full max-w-4xl bg-white dark:bg-dark-800 rounded-xl shadow-lg p-6 transition-colors duration-300">
+      <div id="chart" class="chart-container">
+        <div id="text-info" class="text-center py-16 text-gray-400 dark:text-gray-500">
+          Preencha o formulário e clique em "Gerar Gráfico" para visualizar a comparação
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-8 text-sm text-gray-500 dark:text-gray-400">
+      Desenvolvido usando Plotly.js e Tailwind CSS
+    </footer>
+  </div>
 
   <script>
-    const categorias = [
-      "Escalabilidade",
-      "Performance",
-      "Comunidade/Documentação",
-      "Facilidade de uso",
-      "Posicionamento no mercado",
-      "Compatibilidade com outros sistemas"
-    ];
-
-    document.getElementById('form').addEventListener('submit', function (e) {
+    // Tema escuro/claro
+    const themeToggle = document.getElementById('theme-toggle');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    // Verificar preferência do sistema
+    if (prefersDarkScheme.matches) {
+      document.documentElement.classList.add('dark');
+    }
+    
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      // Se houver gráfico, atualizar para aplicar o novo tema
+      if (document.querySelector('.plot-container')) {
+        const data = collectFormData();
+        generateChart(data);
+      }
+    });
+    
+    // Coletar dados do formulário
+    function collectFormData() {
+      const formData = new FormData(document.getElementById('form'));
+      const data = {
+        categories: ['Escalabilidade', 'Performance', 'Comunidade/Documentação', 
+                     'Facilidade de uso', 'Posicionamento no mercado', 'Compatibilidade'],
+        'Node.js + TS': [],
+        'C# + .NET': [],
+        'Go': []
+      };
+      
+      // Organizar dados
+      for (let [key, value] of formData.entries()) {
+        const [language, category] = key.split('-');
+        if (data[language]) {
+          data[language].push(parseInt(value));
+        }
+      }
+      
+      return data;
+    }
+    
+    // Formulário e gráfico
+    document.getElementById('form').addEventListener('submit', function(e) {
       e.preventDefault();
-
-      const linguagens = ["Node.js + TS", "C# + .NET", "Go"];
-      const formData = new FormData(e.target);
-      const dados = {};
-
-      linguagens.forEach(lang => {
-        dados[lang] = categorias.map(cat => {
-          const val = formData.get(`${lang}-${cat}`);
-          return val ? parseFloat(val) : 0;
-        });
-        dados[lang].push(dados[lang][0]); // fechar gráfico
-      });
-
-      const categoriasFechadas = [...categorias, categorias[0]];
-
-      const traces = linguagens.map(lang => ({
-        type: 'scatterpolar',
-        r: dados[lang],
-        theta: categoriasFechadas,
-        fill: 'toself',
-        name: lang
-      }));
-
-      Plotly.newPlot('chart', traces, {
+      const data = collectFormData();
+      generateChart(data);
+    });
+    
+    function generateChart(data) {
+      const categories = data.categories;
+      
+      const chartData = [
+        {
+          type: 'scatterpolar',
+          r: data['Node.js + TS'],
+          theta: categories,
+          fill: 'toself',
+          name: 'Node.js + TS',
+          line: { color: '#6366f1' }, // indigo-500
+          fillcolor: 'rgba(99, 102, 241, 0.3)'
+        },
+        {
+          type: 'scatterpolar',
+          r: data['C# + .NET'],
+          theta: categories,
+          fill: 'toself',
+          name: 'C# + .NET',
+          line: { color: '#a855f7' }, // purple-500
+          fillcolor: 'rgba(168, 85, 247, 0.3)'
+        },
+        {
+          type: 'scatterpolar',
+          r: data['Go'],
+          theta: categories,
+          fill: 'toself',
+          name: 'Go',
+          line: { color: '#06b6d4' }, // cyan-500
+          fillcolor: 'rgba(6, 182, 212, 0.3)'
+        }
+      ];
+      
+      const layout = {
+        title: {
+          text: 'Comparativo de Linguagens Backend',
+          font: {
+            size: 24,
+            color: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#1e293b'
+          }
+        },
         polar: {
           radialaxis: {
             visible: true,
-            range: [0, 10]
-          }
+            range: [0, 10],
+            gridcolor: document.documentElement.classList.contains('dark') ? '#334155' : '#e2e8f0',
+            tickfont: {
+              color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#4b5563'
+            }
+          },
+          angularaxis: {
+            gridcolor: document.documentElement.classList.contains('dark') ? '#334155' : '#e2e8f0',
+            linecolor: document.documentElement.classList.contains('dark') ? '#475569' : '#cbd5e1',
+            tickfont: {
+              color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#4b5563'
+            }
+          },
+          bgcolor: 'transparent'
         },
-        title: 'Comparativo de Linguagens Backend'
+        showlegend: true,
+        legend: {
+          font: {
+            color: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#1e293b'
+          },
+          orientation: 'h',
+          y: -0.15
+        },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
+        font: {
+          color: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#1e293b'
+        },
+        margin: {
+          t: 80,  // espaço extra no topo para o menu
+          b: 60,
+          l: 80,
+          r: 80
+        },
+        // Configurações do modebar (menu)
+        modebar: {
+          orientation: 'h',
+          bgcolor: 'transparent',
+          color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#4b5563',
+          activecolor: document.documentElement.classList.contains('dark') ? '#a5b4fc' : '#6366f1',
+        }
+      };
+      
+      const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+        modeBarButtonsToAdd: [
+          {
+            title: 'Download PNG',
+            name: 'downloadImage',
+            icon: Plotly.Icons.camera,
+            click: function(gd) {
+              Plotly.downloadImage(gd, {
+                filename: 'comparativo-linguagens-backend',
+                format: 'png',
+                height: 600,
+                width: 900
+              });
+            }
+          },
+          {
+            title: 'Zoom Reset',
+            name: 'resetViews',
+            icon: Plotly.Icons.home,
+            click: function(gd) {
+              Plotly.relayout(gd, {
+                'polar.radialaxis.range': [0, 10]
+              });
+            }
+          }
+        ]
+      };
+      document.getElementById('text-info'). innerHTML = ''
+      Plotly.newPlot('chart', chartData, layout, config);
+    }
+    
+    // Valores de exemplo para demonstração
+    document.addEventListener('DOMContentLoaded', () => {
+      // Preencher com valores de exemplo
+      const exampleValues = {
+        'Node.js + TS': [8, 7, 10, 6, 9, 9],
+        'C# + .NET': [9, 8, 9, 5, 10, 8],
+        'Go': [9, 10, 8, 9, 7, 9]
+      };
+      
+      Object.keys(exampleValues).forEach(lang => {
+        exampleValues[lang].forEach((value, index) => {
+          const inputName = `${lang}-${[
+            'Escalabilidade',
+            'Performance',
+            'Comunidade/Documentação',
+            'Facilidade de uso',
+            'Posicionamento no mercado',
+            'Compatibilidade com outros sistemas'
+          ][index]}`;
+          
+          const input = document.querySelector(`input[name="${inputName}"]`);
+          if (input) {
+            input.value = value;
+          }
+        });
       });
     });
   </script>
